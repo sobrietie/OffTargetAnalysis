@@ -19,13 +19,16 @@ from Bio import SeqIO
 from Bio.Seq import Seq
 import re
 # get sequences from file by fasta IO
-for record in SeqIO.parse("/home/xiaodong/Documents/PtrTCPgenomicsim.fas", "fasta"):
+for record in SeqIO.parse("/home/xiaodong/Documents/ch01.fas", "fasta"):
+    # find 20+ngg motif in each sequence
     s = str(record.seq)
+    # search in the + strand
     pattern = re.compile('[ATGCatgc]{21}[Gg]{2}')
+    # search in the - strand
     patternRC = re.compile('[cC]{2}[ATGCatgc]{21}')
     items = pattern.finditer(s)
     for item in items:
-        # write to file in fasta format
+        # write hits from the + strand to file in fasta format
         file = open("/home/xiaodong/Documents//output3.fas", "a+")
         file.write('>')
         file.write(record.id)
@@ -39,7 +42,7 @@ for record in SeqIO.parse("/home/xiaodong/Documents/PtrTCPgenomicsim.fas", "fast
     itemsRC = patternRC.finditer(s)
     for itemRC in itemsRC:
         hitRC = Seq(itemRC.group())
-        # write to file in fasta format
+        # write hits from the - strand to file in fasta format
         file = open("/home/xiaodong/Documents//output3.fas", "a+")
         file.write('>')
         file.write(record.id)
