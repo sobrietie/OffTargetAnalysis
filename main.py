@@ -17,32 +17,37 @@
 # extract from original seq
 from Bio import SeqIO
 import re
-for record in SeqIO.parse("/home/xiaodong/Documents/PtrTCPgenomicsim.fas","fasta"):
+for record in SeqIO.parse("/home/xiaodong/Documents/PtrTCPgenomicsim.fas", "fasta"):
     s = str(record.seq)
-    id = record.id
-    pattern = re.compile('[ATGCatgc]{21}[Gg]{2}')
-    patternRC = re.compile('[cc]{2}[ATGCatgc]{21}')
+    pattern = re.compile('[A-Za-z]{21}[Gg]{2}')
+    patternRC = re.compile('[cC]{2}[A-Za-z]{21}')
     items = pattern.finditer(s)
     for item in items:
-        print('>')
-        print(id)
-        print(item.start())
-        print('...')
-        print(item.end())
-        print(item.group())
+        # write to file in fasta format
+        file = open("/home/xiaodong/Documents//output3.fas", "a+")
+        file.write('>')
+        file.write(record.id)
+        file.write('_')
+        file.write(str(item.start()))
+        file.write('...')
+        file.write(str(item.end()))
+        file.write('\n')
+        file.write(item.group())
+        file.write('\n')
     itemsRC = patternRC.finditer(s)
-    for i in itemsRC:
-        print('>')
-        print(id)
-        print('RC')
-        print(item.start())
-        print('...')
-        print(item.end())
-        print(item.group())
-
-
-
-    # save as fasta file
+    for itemRC in itemsRC:
+        # need to reverse-complement here!!
+        # write to file in fasta format
+        file = open("/home/xiaodong/Documents//output3.fas", "a+")
+        file.write('>')
+        file.write(record.id)
+        file.write('_RC_')
+        file.write(str(itemRC.start()))
+        file.write('...')
+        file.write(str(itemRC.end()))
+        file.write('\n')
+        file.write(itemRC.group())
+        file.write('\n')
 
 # extract from reverse-complemented seq
 
