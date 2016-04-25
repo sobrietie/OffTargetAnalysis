@@ -16,11 +16,13 @@
 # extract all 20-nt seqs before a ngg in the whole genome and save as fasta format seqs
 # extract from original seq
 from Bio import SeqIO
+from Bio.Seq import Seq
 import re
+# get sequences from file by fasta IO
 for record in SeqIO.parse("/home/xiaodong/Documents/PtrTCPgenomicsim.fas", "fasta"):
     s = str(record.seq)
-    pattern = re.compile('[A-Za-z]{21}[Gg]{2}')
-    patternRC = re.compile('[cC]{2}[A-Za-z]{21}')
+    pattern = re.compile('[ATGCatgc]{21}[Gg]{2}')
+    patternRC = re.compile('[cC]{2}[ATGCatgc]{21}')
     items = pattern.finditer(s)
     for item in items:
         # write to file in fasta format
@@ -36,17 +38,17 @@ for record in SeqIO.parse("/home/xiaodong/Documents/PtrTCPgenomicsim.fas", "fast
         file.write('\n')
     itemsRC = patternRC.finditer(s)
     for itemRC in itemsRC:
-        # need to reverse-complement here!!
+        hitRC = Seq(itemRC.group())
         # write to file in fasta format
         file = open("/home/xiaodong/Documents//output3.fas", "a+")
         file.write('>')
         file.write(record.id)
         file.write('_RC_')
-        file.write(str(itemRC.start()))
-        file.write('...')
         file.write(str(itemRC.end()))
+        file.write('...')
+        file.write(str(itemRC.start()))
         file.write('\n')
-        file.write(itemRC.group())
+        file.write(str(hitRC.reverse_complement()))
         file.write('\n')
 
 # extract from reverse-complemented seq
