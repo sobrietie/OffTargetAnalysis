@@ -17,7 +17,7 @@ if sys.argv[1].startswith('--'):
     if option == 'version':  # 当命令行参数为-- version，显示版本号
         print('Version 0.1')
     elif option == 'help':  # 当命令行参数为--help时，显示相关帮助内容
-        print("""/
+        print("""
         This program identifies all 23-nt Cas9 target
         sequences in the specified DNA sequence(s).
         A fasta format input is required.
@@ -27,6 +27,7 @@ if sys.argv[1].startswith('--'):
         --help : Display this help""")
     else:
         print('Unknown option.')
+    sys.exit()
 # get sequences from file by fasta IO
 for record in SeqIO.parse(sys.argv[1], "fasta"):
     # find 20+ngg motif in each sequence
