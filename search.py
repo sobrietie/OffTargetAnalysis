@@ -9,7 +9,7 @@ from Bio.Seq import Seq
 import re
 import sys
 if len(sys.argv) < 2:
-    print('No action specified.')
+    print('No input file specified.')
     sys.exit()
 if sys.argv[1].startswith('--'):
     option = sys.argv[1][2:]
