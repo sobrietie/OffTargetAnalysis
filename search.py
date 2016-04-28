@@ -1,6 +1,7 @@
 """ This is a project for genome-wide analysis of
  potential off-target issues in CRISPR/Cas9
  guided genome editing
+ This script is for searching 20-nt seqs from a input genome
 """
 # extract all 20-nt seqs before a ngg in the whole genome and save as fasta format seqs
 # extract from original seq
@@ -39,7 +40,7 @@ for record in SeqIO.parse(sys.argv[1], "fasta"):
     items = pattern.finditer(s)
     for item in items:
         # write hits from the + strand to file in fasta format
-        file = open("/home/xiaodong/Documents//targets_all.fas", "a+")
+        file = open("targets_all.fas", "a+")
         file.write('>')
         file.write(record.id)
         file.write('_')
@@ -49,11 +50,12 @@ for record in SeqIO.parse(sys.argv[1], "fasta"):
         file.write('\n')
         file.write(item.group())
         file.write('\n')
+        file.close()
     itemsRC = patternRC.finditer(s)
     for itemRC in itemsRC:
         hitRC = Seq(itemRC.group())
         # write hits from the - strand to file in fasta format
-        file = open("/home/xiaodong/Documents/targets_all.fas", "a+")
+        file = open("targets_all.fas", "a+")
         file.write('>')
         file.write(record.id)
         file.write('_RC_')
@@ -63,3 +65,4 @@ for record in SeqIO.parse(sys.argv[1], "fasta"):
         file.write('\n')
         file.write(str(hitRC.reverse_complement()))
         file.write('\n')
+        file.close()
