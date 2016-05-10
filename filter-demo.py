@@ -1,6 +1,5 @@
 from Bio import SeqIO
 from Bio.Seq import Seq
-import re
 file = open("shortgenestartend.tsv", 'r')
 for line in file:
     table = line.split()
@@ -19,7 +18,7 @@ for line in file:
                 print(targetspan)
                 print(table[2:])
                 print(targetid)
-
+                print(target.seq)
     print(count, "target(s) found")
 
 
